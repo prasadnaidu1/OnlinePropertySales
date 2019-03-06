@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+{% load staticfiles %}
+
+
+  <meta charset="UTF-8">
+
+  <title>Online Property Sales</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="{%static 'css/style.css'%}">
+    <link rel="stylesheet" href="{%static 'css/page.css'%}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'js/dropdown.js' %}"></script>
+    <link rel="stylesheet" href="{%static 'css/dropdown.css'%}">
+
+
+
+</head>
+
+<body>
+<header id="header">
+
+    <nav class="menu">
+      <div class="logo">
+          <img src="https://blog.junkmail.co.za/wp-content/uploads/2016/04/4.png">
+          <a href="#" class="btn-menu" id="btn-menu"><i class="icono fa fa-bars fa-2x" aria-hidden="true"></i></a>
+      </div>
+
+
+          <a class="nav-link js-scroll-trigger" href="/home/?type=home">
+              <i class="fa fa-home" aria-hidden="true"></i>Home</a>
+          <a class="nav-link js-scroll-trigger" id="register" href="/register/?type=register" aria-hidden="true">User Registration</a>
+          <a class="nav-link js-scroll-trigger" href="/login/?type=login" aria-hidden="true">UserLogin</a>
+
+          <a class="nav-link js-scroll-trigger" href="/contactUs/?type=contact"aria-hidden="true">Contact Us</a>
+         <div class="enlaces" id="enlaces">
+          <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">SearchProperty</button>
+            <div id="myDropdown" class="dropdown-content">
+                {% for x in address %}
+
+                <a  href="/address/?type=address&Address={{ x }}">{{ x }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+
+
+
+
+
+      </div>
+
+    </nav>
+</header>
+
+
+  <style>
+      div.gallery {
+          margin: 5px;
+          float: left;
+          width: 180px;
+          padding-left: 80px;
+          padding-top: 30px;
+          }
+
+
+
+      div.gallery img {
+          width: 200px;
+          height: 50%;
+          }
+      div.desc {
+          padding: 15px;
+          text-align: center;
+          }
+</style>
+
+
+{% for x in result %}
+    <div class="gallery">
+    <a  href="/propertydetails/?type=product&id={{ x.property_id }}">
+        <img src="{{ x.image.url }}" alt="Cinque Terre" width="600" height="400">
+    </a>
+        <div class="desc">Name:{{ x.property}}<br>
+                          Price: {{ x.selling_price}}<br>
+            <a href="/propertydetails/?type=product&id={{ x.property_id}}">Show</a>
+            <a href="/Buy_Property/?type=buy_property&id={{ x.property_id }}">Buy</a>
+        </div>
+    </div>
+{% endfor %}
+<div class="gallery">
+<p align="center">
+{% if result.has_previous %}
+    <a href="/index/?page_no={{result.previous_page_number }}" class="previous">&laquo; {{ result.previous_page_number }} Previous </a>
+{% endif %}
+{% if result.has_next %}
+    <a href="/index/?page_no={{result.next_page_number }}" class="next">Next{{result.next_page_number }} &raquo;</a>
+{% endif %}
+</p>
+</div>
+
+
+
+{% if type == "product" %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+    $(document).ready(function(){
+        $(".image").mouseout(function(){
+            $("p").toggle();
+            });
+        });
+    </script>
+
+
+
+
+
+     <style>
+     .image{
+         display: inline-block;
+         width: 30%;
+         margin: 20px 20px 0px 0px  ;
+         background-color: wheat;
+         }
+     </style>
+    {% for x in res %}
+        <div class="image">
+        <p>
+            <img   src="{{ x.image.url }}" width="100%" height="300"><br>
+            Name:{{ x.property}}<br>
+            Price: {{ x.selling_price}}<br>
+            Contact:{{ x.contact }}<br>
+            Address :{{ x.address }}<br>
+            <a href="/BuyProperty/?id={{ x.property_id }}">Buy</a>
+            </p>
+         </div>
+        {% endfor %}
+    {% endif %}
+
+{# For Home#}
+{% if type == "home" %}
+    <h2>home</h2>
+{% endif %}
+
+
+
+{# For Registration #}
+
+
+{% if type == "register" %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    function PreviewImage()
+        {
+            var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("uploadimage").files[0]);
+
+            oFReader.onload = function (oFREvent)
+            {
+                document.getElementById("uploadPreview").src = oFREvent.target.result;
+            };
+        }
+    </script>
+    <link rel="stylesheet" href="{% static 'css/registation.css' %}">
+
+
+<div id="login-box">
+<form action="/registerDetails/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="left">
+        <h1>Sign up</h1>
+        <input type="text" name="t1" placeholder="Name" />
+        <input type="text" name="t2" placeholder="E-mail" />
+        <input type="password" name="t3" placeholder="Password" />
+        <input type="password" name="t4" placeholder="Retype password" />
+        <input type="number" name="t5" placeholder="Contact number" />
+        <img  id="uploadPreview"  style="width: 100px; height: 100px;" />
+        <input type="file" name="t6" id="uploadimage" onchange="PreviewImage()" />
+        <input type="submit" name="signup_submit" value="Sign Up" />
+  </div>
+    </form>
+
+  <div class="right">
+      <span class="loginwith">Sign in with<br />social network</span>
+      <form action="/facebook/">
+          {% csrf_token %}
+          <button class="social-signin facebook">facebook</button>
+      </form>
+{#      <button class="social-signin twitter">Twitter</button>#}
+      <form action="/gmail/">
+          {% csrf_token %}
+          <button class="social-signin google">Google+</button>
+       </form>
+  </div>
+  <div class="or">OR</div>
+</div>
+
+{% endif %}
+
+{# For Login #}
+
+{% if type == "login" %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.js"></script>
+
+
+
+
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+
+     <link href="{% static 'css/login.css' %}" rel="stylesheet" type="text/css">
+    <div ng-app="ngAnimate">
+
+<h1>If You Want Hide Login: <input type="checkbox" ng-model="myCheck"></h1>
+
+<div class="container" ng-hide="myCheck">
+  <div class="row">
+
+    <div class="main">
+
+
+      <h3>Log In OR <a href="/register/?type=register">Sign Up</a></h3>
+      <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6">
+          <a href="/facebook/" class="btn btn-lg btn-primary btn-block">Facebook</a>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6">
+          <a href="/gmail/" class="btn btn-lg btn-info btn-block">Google</a>
+        </div>
+      </div>
+      <div class="login-or">
+        <hr class="hr-or">
+        <span class="span-or">or</span>
+      </div>
+
+      <form role="form" action="/loginDetails/" method="post">
+          {% csrf_token %}
+        <div class="form-group">
+          <label for="inputUsernameEmail">Email</label>
+          <input type="text" class="form-control" id="inputUsernameEmail" name="u1">
+        </div>
+        <div class="form-group">
+          <a class="pull-right" href="/forget/?type=forget">Forgot password?</a>
+          <label for="inputPassword">Password</label>
+          <input type="password" class="form-control" id="inputPassword" name="u2">
+        </div>
+
+        <button type="submit" class="btn btn btn-primary" >
+          Log In
+        </button>
+      </form>
+
+    </div>
+
+  </div>
+</div>
+    </div>
+{% endif %}
+
+
+
+{# ForgetPassword#}
+
+
+        {% if type1 == "forget" %}
+
+
+    <link href="{% static 'css/login.css' %}" rel="stylesheet" type="text/css">
+    <div class="container">
+     <div class="row">
+
+    <div class="main">
+        <form action="/forgetdetails/" method="post">
+            {% csrf_token %}
+
+    <div class="form-group">
+          <label for="inputUsernameEmail">Enter Your Email :</label>
+          <input type="email" class="form-control" id="inputUsernameEmail" name="u1" required>
+        </div>
+        <button type="submit" class="btn btn btn-primary" >
+          Submit
+        </button>
+            </form>
+    </div>
+
+     </div>
+    </div>
+
+
+{% endif %}
+
+{% if type1 == "forgetdetails" %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+    <link href="{% static 'css/login.css' %}" rel="stylesheet" type="text/css">
+    <div class="container">
+     <div class="row">
+
+    <div class="main">
+        <form action="/newpassword/" method="post">
+            <input type="hidden" value="{{ email }}" name="u0" ng-model="name">
+            {% csrf_token %}
+
+    <div class="form-group">
+          <label for="inputUsernameEmail">Email :</label>
+          <input type="email" class="form-control" id="inputUsernameEmail" name="u1" value="{{ email }}">
+        </div>
+            <div class="form-group">
+          <label for="inputUsernameEmail">Password :</label>
+          <input type="password" class="form-control" id="inputUsernameEmail" name="u2"  required>
+        </div>
+
+            <div class="form-group">
+          <label for="inputUsernameEmail">Confirm Password :</label>
+          <input type="password" class="form-control" id="inputUsernameEmail" name="u3"  required>
+        </div>
+
+        <button type="submit" class="btn btn btn-primary" >
+          Submit
+        </button>
+            </form>
+    </div>
+
+     </div>
+    </div>
+
+{% endif %}
+
+
+
+{# Otp Validation#}
+
+
+
+        {% if type == "otpvalidation" %}
+    <form action="/otpvalidate/" method="post">
+    {% csrf_token %}
+
+    <div class="left">
+    <input type="number" name="t5" placeholder="Enter OTP" />
+    <input type="submit" name="signup_submit" value="Submit" />
+    </div>
+    </form>
+
+{% endif %}
+
+
+
+{#        For COntact Us     #}
+
+
+        {% if type == "contact" %}
+
+
+            <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+            <link href="{% static 'css/contact.css' %}" rel="stylesheet" type="text/css">
+
+
+            <div class="container">
+	<div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="well well-sm">
+          <form class="form-horizontal" action="/contact/" method="post">
+              {% csrf_token %}
+          <fieldset>
+            <legend class="text-center">Contact us</legend>
+
+            <!-- Name input-->
+            <div class="form-group">
+
+              <div class="col-md-9">
+                <input id="name" name="name" type="text" placeholder="Your name" class="form-control">
+              </div>
+            </div>
+
+            <!-- Email input-->
+            <div class="form-group">
+
+              <div class="col-md-9">
+                <input id="email" name="email" type="text" placeholder="Your email" class="form-control">
+              </div>
+            </div>
+
+            <!-- Message body -->
+            <div class="form-group">
+
+              <div class="col-md-9">
+                <textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
+              </div>
+            </div>
+
+            <!-- Form actions -->
+            <div class="form-group">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+              </div>
+            </div>
+          </fieldset>
+          </form>
+        </div>
+      </div>
+	</div>
+</div>
+        {% endif %}
+
+{% if type == "address" %}
+
+
+
+
+
+
+   <style>
+      div.gallery {
+          margin: 5px;
+          float: left;
+          width: 180px;
+          padding-left: 80px;
+          padding-top: 30px;
+          }
+
+
+
+      div.gallery img {
+          width: 200px;
+          height: 50%;
+          }
+      div.desc {
+          padding: 15px;
+          text-align: center;
+          }
+</style>
+
+
+{% for x in res %}
+    <div class="gallery">
+
+        <img src="{{ x.image.url }}" alt="Cinque Terre" width="600" height="400">
+
+        <div class="desc">Contact:{{ x.contact}}<br>
+                          Price: {{ x.selling_price}}<br>
+            <a href="/propertydetails/?type=product&id={{ x.property_id}}">Show</a>
+            <a href="/BuyProperty/?id={{ x.property_id }}">Buy</a>
+        </div>
+    </div>
+{% endfor %}
+<div class="gallery">
+<p align="center">
+{% if result.has_previous %}
+    <a href="/index/?page_no={{result.previous_page_number }}" class="previous">&laquo; {{ result.previous_page_number }} Previous </a>
+{% endif %}
+{% if result.has_next %}
+    <a href="/index/?page_no={{result.next_page_number }}" class="next">Next{{result.next_page_number }} &raquo;</a>
+{% endif %}
+</p>
+</div>
+{% endif %}
+
+
+
+
+
+{% if type == "buy_property" %}
+              <table align="center">
+
+          <tr>
+                    <td>PropertyPrice :</td>
+                    <th>{{ price }}</th>
+          </tr>
+              <tr>
+                    <td>Taxes :</td>
+                    <th>{{ tax }}</th>
+              </tr>
+
+
+          <tr>
+
+                    <td>Total Amount :</td>
+                    <th>{{ total }}</th>
+          </tr>
+
+          <tr>
+              <th colspan="2" align="center">
+                        <form action="/proceedtopay/" method="post">
+                                {% csrf_token %}
+
+                      <input type="hidden" value="{{ id }}" name="id">
+                      <button type="submit">Proceed to pay</button> </form>
+              </th>
+          </tr>
+
+
+          </table>
+{% endif %}
+{% if type == "buy_properties" %}
+    <h1>{{ message }}</h1>
+{% endif %}
+
+</body>
+
+</html>

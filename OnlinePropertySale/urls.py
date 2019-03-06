@@ -1,0 +1,79 @@
+"""OnlinePropertySale URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/2.1/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.contrib.staticfiles.urls import static
+
+
+from django.urls import path
+from django.views.generic import TemplateView, RedirectView
+
+from OnlinePropertySale import settings
+from app import views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('index/', views.ShowIndex),
+    path('loginIndex/', views.LoginIndex),
+
+    path('home/',views.Home),
+    path('register/',views.Register),
+    path('sale/',views.Sale),
+
+    path('login/',views.login),
+    path('logout/',views.Logout),
+
+    path('loginDetails/',views.LoginDetails),
+
+    path('update/',views.Update),
+    path('UpdateDetails/',views.UpdateDetails),
+
+    path('addproperty/',views.AddProperty),
+    path('     /',views.ShowProperties),
+
+    path('property/',views.Property),
+    path('propertydetails/',views.PropertyDetails),
+    path('updateproperty/',views.UpdateProperty),
+    path('deleteproperty/',views.DeleteProperty),
+    path('UpdatePropertyDetails/',views.UpdatePropertyDetails),
+    path('BuyProperty/',views.BuyProperty),
+    path('Buy_Property/',views.Buy_Property),
+    path('proceedtopay/',views.ProceedToPay),
+
+
+
+    path('registerDetails/',views.RegisterDetails),
+    path('otpvalidate/',views.OtpValidate),
+    path('facebook/',RedirectView.as_view(url="http://www.facebook.com")),
+    path('gmail/',RedirectView.as_view(url="http://mail.google.com")),
+
+    path('forget/',views.Forget),
+    path('forgetdetails/',views.ForgetDetails),
+    path('newpassword/',views.NewPassword),
+
+    path('helpline/',views.HelpLine),
+    path('helplineDetails/',views.HelpLineDetails),
+
+    path('contactUs/',views.ContactUs),
+    path('contact/',views.Contact),
+    path('changeprofile/',views.ChangeProfile),
+    path('imageUploading/',views.ImageUploading),
+
+
+
+     path('address/',views.Address)
+]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

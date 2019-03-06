@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+{% load staticfiles %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Online Sale Property</title>
+
+  <!-- Font Awesome Icons -->
+
+
+  <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+
+
+
+  <!-- Theme CSS - Includes Bootstrap -->
+
+
+</head>
+
+<body id="page-top">
+
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+
+      <link rel="stylesheet" href="{%static 'css/style.css'%}">
+
+<link rel="stylesheet" href="{%static 'css/loginimage.css'%}">
+<link rel="stylesheet" href="{% static 'css/count.css' %}">
+<link rel="stylesheet" href="{%static 'css/dropdown.css'%}">
+ <link href="{% static 'css/profile.css' %}" rel="stylesheet" type="text/css">
+<script src="{% static 'js/dropdown.js' %}"></script>
+
+
+
+
+
+
+  <header id="header">
+    <nav class="menu">
+
+      <div class="logo">
+          <img src="https://blog.junkmail.co.za/wp-content/uploads/2016/04/4.png">
+          <a href="#" class="btn-menu" id="btn-menu"><i class="icono fa fa-bars fa-2x" aria-hidden="true"></i></a>
+      </div>
+
+      <div class="enlaces" id="enlaces">
+          <a class="nav-link js-scroll-trigger" href="/property/?type=property&email={{ email }}">Add Property</a>
+          <a href="/showProperties/?type=showProperties&email={{ email }}" class="notification">
+              <span>{{ name }} Properties</span>
+              <span class="badge">{{ p }}</span>
+          </a>&nbsp;&nbsp;
+          <a class="nav-link js-scroll-trigger" href="/helpline/?type=helpline&email={{ email }}">Help</a>
+
+      </div>
+        <div class="container">
+            <img src="{{ image.url }}" width="60"height="60">
+            <div class="overlay">{{ name }}
+
+            </div>
+        </div>
+
+
+        <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">{{ name }}Profile</button>
+            <div id="myDropdown" class="dropdown-content">
+                <a  href="/update/?email={{ email }}">Update Profile</a>
+                <a  href="/logout/">LogOut</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<table  align="center">
+        <tr>
+            <td>
+
+            <style>
+        .image{
+
+            display: inline-block;
+            width: 20%;
+            margin: 2px 20px 20px 20px  ;
+            padding-right: 40px;
+            padding-left: 40px;
+            padding-top: 30px;
+
+        }
+    </style>
+                {% for x in result %}
+                <div class="image">
+                <a href="/propertydetails/?type=product&id={{ x.property_id }}"><img src="{{ x.image.url }}" width="300" height="150"><br></a>
+                <p align="center">Name:{{ x.property}}<br>
+                                  Price: {{ x.selling_price}}<br>
+
+                    <a href="/propertydetails/?type=product&id={{ x.property_id}}">Show</a>&nbsp;
+                    <a href="/BuyProperty/?id={{ x.property_id }}">Buy</a><br>
+
+                </p>
+                </div>
+
+                {% endfor %}
+            </td>
+                </tr>
+       <p align="center">
+                {% if result.has_previous %}
+
+                        <a href="/loginIndex/?page_no={{ result.previous_page_number }}&email={{ email }}" >Previous >>{{ result.previous_page_number }}</a>
+
+                {% endif %}
+
+                {% if result.has_next %}
+
+                        <a href="/loginIndex/?page_no={{ result.next_page_number }}&email={{ email }}">Next<<{{ result.next_page_number }}</a>
+
+                {% endif %}
+       </p>
+</table>
+
+
+
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center justify-content-center text-center">
+        <div class="col-lg-10 align-self-end">
+        {% if type == "property" %}
+            <link rel="stylesheet" href="{% static 'css/registation.css' %}">
+
+<div id="login-box">
+
+<form action="/addproperty/" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="left">
+    <h4>Add Property</h4>
+  <input type="number" name="t0" value="{{ id }}"  readonly/>
+  <input type="text" name="t1" value="{{ name }}" />
+  <input type="text" name="t2" value="{{ date }}" />
+  <input type="number" name="t3" value="{{ contact}}" />
+  <select name="t4" >
+       {% for y in data %}
+           <option >{{ y }}</option>
+       {% endfor %}
+  <input type="text" name="t5" value="{{ email }}" readonly/>
+
+  </select>
+  </div>
+            <div class="right">
+
+
+            <textarea name="t6" id="" cols="15" rows="2" placeholder="Address"></textarea>
+            <input type="number" name="t7" placeholder="Selling Price" required/>
+            <input type="file" name="t8"  />
+            <input type="submit" name="signup_submit" value="Add" />
+            </div>
+    </form>
+
+
+</div>
+</div>
+{% endif %}
+
+      {% if type == "showProperties" %}
+          {% if not res %}
+              <h1 align="center">No properties were added</h1>
+          {% else %}
+
+
+
+       <style>
+     div.gallery{
+
+
+         float: left;
+
+         display: inline-block;
+         padding: 20px;
+         padding-bottom: 30px;
+         padding-left: 30px;
+         padding-top: 30px;
+         padding-right: 30px;
+     }
+
+
+
+     div.gallery.img{
+            width: 100%;
+            height: auto;
+     }
+     div.desc{
+         padding: 15px 15px 15px 15px;
+         text-align: center;
+     }
+
+         {##}
+         {##}
+         {#}#}
+         {#  p{#}
+         {#       color:red;#}
+         {#      text-align: center;#}
+         {##}
+         {#  }#}
+     </style>
+              <table>
+              <tr>
+
+
+
+        {% for x in res %}
+            <td>
+
+           <div class="gallery">
+                <a href="/propertydetails/?type=product&id={{ x.property_id }}">
+                    <img src="{{ x.image.url }}"  alt="" width="250" height="250"></a>
+                <div class="desc">
+                    Name:{{ x.property}}<br>
+                    Price: {{ x.selling_price}}<br>
+                    <a href="/propertydetails/?type=product&id={{ x.property_id}}">Show</a>&nbsp;
+                    <a href="/BuyProperty/?id={{ x.property_id }}">Buy</a><br>
+                    <a href="/updateproperty/?id={{ x.property_id }}">Update</a>&nbsp;
+                    <a href="/deleteproperty/?id={{ x.property_id }}">Delete</a>
+
+
+                </div>
+
+
+           </div>
+
+
+            </td>
+
+
+
+
+        {% endfor %}
+              <p align="center">
+                {% if prasad.has_previous %}
+
+                        <a href="/showProperties/?page_no={{ prasad.previous_page_number }}&email={{ email2 }}" >Previous >>{{ prasad.previous_page_number }}</a>
+
+                {% endif %}
+
+                {% if prasad.has_next %}
+
+                        <a href="/showProperties/?page_no={{ prasad.next_page_number }}&email={{ email2 }}">Next<<{{ prasad.next_page_number }}</a>
+
+                {% endif %}
+              </p>
+
+              </tr>
+              </table>
+        {% endif %}
+        {% endif %}
+
+
+            <h1>{{ message }}</h1>
+
+
+
+{% if type == "UpdateDetails" %}
+     <link rel="stylesheet" href="{% static 'css/registation.css' %}">
+
+
+
+    <header class="masthead">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center justify-content-center text-center">
+        <div class="col-lg-10 align-self-end">
+
+
+
+<div id="login-box">
+<form action="/UpdatePropertyDetails/" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="left">
+    <h4>Update Property</h4>
+
+        <input type="number" name="t1" value="{{ id }}"  readonly/>
+        <input type="number" name="t2" value="{{ contact}}" />
+        <select name="t3" >
+                       {% for y in data %}
+                           <option >{{ y }}</option>
+                       {% endfor %}
+       </select>
+
+  </div>
+<div class="right">
+    <input type="number" name="t4" value="{{ price }}" required/>
+
+    <input type="submit" name="signup_submit" value="Add" />
+  </div>
+</form>
+
+<h3 align="center">{{ message }}</h3>
+</div>
+</div>
+
+{% endif %}
+</div>
+
+
+          {% if type == "BuyingDetails" %}
+              <table align="center">
+
+          <tr>
+                    <td>PropertyPrice :</td>
+                    <th>{{ price }}</th>
+          </tr>
+              <tr>
+                    <td>Taxes :</td>
+                    <th>{{ tax }}</th>
+              </tr>
+
+
+          <tr>
+
+                    <td>Total Amount :</td>
+                    <th>{{ total }}</th>
+          </tr>
+
+          <tr>
+              <th colspan="2" align="center">
+                        <form action="/proceedtopay/" method="post">
+                                {% csrf_token %}
+
+                      <input type="hidden" value="{{ id }}" name="id">
+                      <button type="submit">Proceed to pay</button> </form>
+              </th>
+          </tr>
+
+          </table>
+      {% endif %}
+
+
+
+      {% if type == "changeprofile" %}
+          <h2>hello</h2>
+
+         <script type="text/javascript">
+        function PreviewImage()
+        {
+            var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("uploadimage").files[0]);
+
+            oFReader.onload = function (oFREvent)
+            {
+                document.getElementById("uploadPreview").src = oFREvent.target.result;
+            };
+        }
+    </script>
+
+
+
+          <form action="/imageUploading/" method="post" enctype="multipart/form-data">
+              <input type="hidden" value="{{ email }}" name="e1">
+                    {% csrf_token %}
+
+              <img  id="uploadPreview"   style="width: 100px; height: 100px;" />
+              <input type="file" name="t1" id="uploadimage" onchange="PreviewImage()" />
+              <input type="submit" value="SUbmit">
+          </form>
+      {% endif %}
+
+
+
+
+
+
+
+
+
+      {% if type == "helpline" %}
+
+
+
+          <link rel="stylesheet" href="{% static 'css/helpline.css' %}">
+          <script src="{% static 'js/helpline.js' %}"></script>
+           <div class="chat-popup" id="myForm">
+            <form action="/helplineDetails/" class="form-container" method="post">
+
+                <input type="hidden" value="{{ email }}" name="t2">
+                        {% csrf_token %}
+                        <h1>Chat</h1>
+
+                        <label for="msg"><b>Message</b></label>
+                        <textarea placeholder="Type message.." name="msg" required></textarea>
+
+                        <button type="submit" class="btn">Send</button>
+
+                        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+
+
+            </form>
+</div>
+
+      {% endif %}
+</body>
+
+</html>

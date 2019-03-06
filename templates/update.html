@@ -1,0 +1,98 @@
+<html>
+<body>
+{% load staticfiles %}
+
+     <link href="{% static 'css/creative.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/creative.min.css' %}" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+     <link href="{% static 'css/Update.css' %}" rel="stylesheet" type="text/css">
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<form action="/UpdateDetails/" method="post">
+    {% csrf_token %}
+
+ <div class="container">
+ <!---heading---->
+     <header class="heading">Update Details</header><hr></hr>
+	<!---Form starting---->
+
+
+	<div class="row ">
+
+	 <!--- For Name---->
+         <div class="col-sm-12">
+             <div class="row">
+			     <div class="col-xs-4">
+          	         <label class="firstname">Name :</label> </div>
+		         <div class="col-xs-8">
+		             <input type="text" name="t1" id="fname" value="{{ name }}" class="form-control ">
+             </div>
+		      </div>
+		 </div>
+
+     <!-----For email---->
+		 <div class="col-sm-12">
+		     <div class="row">
+			     <div class="col-xs-4">
+		             <label class="mail" >Email :</label></div>
+			     <div class="col-xs-8"	>
+			          <input type="email" name="t2"  id="email"  value="{{ email }}" class="form-control" readonly>
+		         </div>
+		     </div>
+		 </div>
+	 <!-----For Password and confirm password---->
+          <div class="col-sm-12">
+		         <div class="row">
+				     <div class="col-xs-4">
+		 	              <label class="pass">Password :</label></div>
+				  <div class="col-xs-8">
+			             <input type="text" name="t3" id="password"  value="{{ password }}" class="form-control">
+				 </div>
+                 </div>
+          </div>
+        <div class="col-sm-12">
+		         <div class="row">
+				     <div class="col-xs-4">
+		 	              <label class="pass">Confirm Password:</label></div>
+				  <div class="col-xs-8">
+			             <input type="text" name="t4" id="password"  value="{{ con_password }}" class="form-control">
+				 </div>
+                 </div>
+          </div>
+        <div class="col-sm-12">
+		         <div class="row">
+				     <div class="col-xs-4">
+		 	              <label class="pass">Contact Number :</label></div>
+				  <div class="col-xs-8">
+			             <input type="number" name="t5" id="password"  value="{{ contact }}" class="form-control">
+				 </div>
+                 </div>
+          </div>
+
+
+
+		     <div class="col-sm-12">
+		         <div class="btn btn-warning">
+                     <button type="submit">Submit</button></div>
+		   </div>
+		 </div>
+
+	 </div>
+
+{{ message }}
+
+
+    </form>
+
+
+
+</body>
+</html>

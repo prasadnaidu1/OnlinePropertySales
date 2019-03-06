@@ -1,0 +1,30 @@
+
+<table align="center">
+
+          <tr>
+                    <td>PropertyPrice :</td>
+                    <th>{{ price }}</th>
+          </tr>
+              <tr>
+                    <td>Taxes :</td>
+                    <th>{{ tax }}</th>
+              </tr>
+
+
+          <tr>
+
+                    <td>Total Amount :</td>
+                    <th>{{ total }}</th>
+          </tr>
+
+          <tr>
+              <th colspan="2" align="center">
+                        <form action="/proceedtopay/" method="post">
+                                {% csrf_token %}
+
+                      <input type="hidden" value="{{ id }}" name="id">
+                      <button type="submit">Proceed to pay</button> </form>
+              </th>
+          </tr>
+
+          </table>
